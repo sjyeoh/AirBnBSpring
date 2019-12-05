@@ -20,19 +20,20 @@ public class BookingController {
 
     @GetMapping(value = "/bookings")
     public List<Booking> index() {
-        return repo.getAll();
+        return repo.findAll();
     }
 
     @PostMapping(value = "/bookings")
     public Booking create(@RequestBody Booking booking) {
-        repo.addBooking(booking);
+        repo.save(booking);
         return booking;
     }
 
     @PostMapping(value = "/bookings/{id}")
-    public String updateBooking(@PathVariable("id") int bookingInt, @RequestBody Booking booking){
-        repo.updateBooking(bookingInt,booking);
+    public Booking updateBooking(@PathVariable("id") Long bookingInt, @RequestBody Booking data){
+        Booking booking = repo.findById(bookingInt).orElse(null);
+        repo.save(booking);
 
-        return "Successfully Updated.";
+        return booking;
     }
 }

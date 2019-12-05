@@ -1,12 +1,11 @@
 package com.dell.airbnb.repositories;
 
+import java.util.List;
+
 import com.dell.airbnb.entities.Payment;
 import com.dell.airbnb.entities.PaymentRowMapper;
 
-import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPaymentRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

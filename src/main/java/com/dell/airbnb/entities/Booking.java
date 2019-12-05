@@ -2,20 +2,56 @@ package com.dell.airbnb.entities;
 
 import java.util.*;
 
-public class Booking {
-    private int id;
-    private float price;
-    private Date booking_date;
-    private String check_in;
-    private String check_out;
-    private int property_id;
-    private int user_id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-    public int getId() {
+import com.fasterxml.jackson.annotation.JsonBackReference;
+// import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name="booking")
+
+public class Booking {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
+    private float price;
+
+    @Column
+    private Date booking_date;
+
+    @Column
+    private String check_in;
+    
+    @Column
+    private String check_out;
+    
+    @Column
+    private Long property_id;
+    
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private Integer user_id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    // @Column
+    // private Long user_id;
+
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -51,11 +87,11 @@ public class Booking {
         this.check_out = check_out;
     }
 
-    public int getProperty_id() {
+    public Long getProperty_id() {
         return this.property_id;
     }
 
-    public void setProperty_id(int property_id) {
+    public void setProperty_id(Long property_id) {
         this.property_id = property_id;
     }
 
@@ -65,6 +101,14 @@ public class Booking {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

@@ -20,19 +20,20 @@ public class UserController {
 
     @GetMapping(value = "/users")
     public List<User> index() {
-        return repo.getAll();
+        return repo.findAll();
     }
 
     @PostMapping(value = "/users")
     public User create(@RequestBody User user) {
-        repo.addUser(user);
+        repo.save(user);
         return user;
     }
 
     @PostMapping(value = "/users/{id}")
-    public String updateUser(@PathVariable("id") int userInt, @RequestBody User user){
-        repo.updateUser(userInt,user);
+    public User updateUser(@PathVariable("id") Long userInt, @RequestBody User data){
+        User user = repo.findById(userInt).orElse(null);
+        repo.save(user);
 
-        return "Successfully Updated.";
+        return user;
     }
 }
