@@ -12,6 +12,12 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 //import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 @Entity
 @Table(name="user")
@@ -28,6 +34,10 @@ public class User{
 
     @Column
     private String contact_no;
+
+    // @JsonProperty(access = Access.WRITE_ONLY)
+    @Column(name = "password")
+    private String password;
 
     @JsonBackReference
     @OneToMany(mappedBy = "user")
@@ -65,7 +75,18 @@ public class User{
         this.contact_no = contact_no;
     }
 
+    @JsonIgnore
+    public String getPassword() {
 
+        return this.password;
+    }
+
+    @JsonProperty
+    public void setPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
+    }
+    
     public Set<Booking> getBooking() {
         return this.booking;
     }
